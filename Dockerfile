@@ -7,15 +7,16 @@ SHELL ["/bin/bash", "-c"]
 RUN apt -y update && apt -y upgrade && apt install -y \
 	apt-transport-https \
 	software-properties-common \
-    build-essential \
+    	build-essential \
 	ca-certificates \
 	libssl-dev \
 	net-tools \
 	openssh-client \
-    lsb-release \
+    	lsb-release \
 	gnupg2 \
 	man-db \
 	sudo \
+	ssh \
 	wget \
 	curl \
 	git \
@@ -48,7 +49,7 @@ WORKDIR /home/dev
 # Install and configure neovim + plugins
 RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage \
 	&& chmod u+x nvim.appimage \
-	&& ./nvim.appimage --appimage-extract \	#FUSE not supported in containers, so we extract contents.
+	&& ./nvim.appimage --appimage-extract \
 	&& rm nvim.appimage \
 	&& mv squashfs-root .nvim-squashfs-root \
 	&& sudo ln -s ~/.nvim-squashfs-root/AppRun /usr/bin/nvim
