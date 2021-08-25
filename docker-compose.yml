@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  devcon:
+    container_name: devcon
+    build: .
+    ports:
+    - "22:22"
+    environment:
+    - DEVCON_SSH_AUTH_KEY=${DEVCON_SSH_AUTH_KEY}
+    volumes:
+    - ${PWD}/init.vim:/home/dev/.config/init.vim
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /usr/local/bin/docker:/usr/bin/docker
