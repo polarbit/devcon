@@ -38,7 +38,7 @@ RUN	mkdir $NVM_DIR \
 
 # Add user and ugroup 'dev' with id 1182.
 RUN addgroup --gid 1182 dev \
-	&& adduser --uid 1182 --gid 1182 --shell /bin/zsh --disabled-password dev \
+	&& adduser --uid 1182 --gid 1182 --shell /bin/bash --disabled-password dev \
 	&& chown -R dev:dev /home/dev/ \
 	&& echo 'dev  ALL=(ALL) NOPASSWD:ALL' >>  /etc/sudoers
 
@@ -57,6 +57,4 @@ RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appi
 # Expose SSH port
 EXPOSE 22
 
-COPY container-entrypoint.sh /home/dev/
-RUN sudo chmod +x /home/dev/container-entrypoint.sh
 ENTRYPOINT ["/home/dev/container-entrypoint.sh"]
