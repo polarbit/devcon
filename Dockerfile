@@ -36,13 +36,17 @@ RUN	mkdir $NVM_DIR \
 	&& . $NVM_DIR/nvm.sh \
 	&& nvm install $NODE_VERSION --latest-npm
 
-# Add user and ugroup 'dev' with id 1182.
+
+# Create workspace volume
+VOLUME /home/dev/workspace
+
+# Add user and ugroup 'dev' with id 1182
 RUN addgroup --gid 1182 dev \
 	&& adduser --uid 1182 --gid 1182 --shell /bin/bash --disabled-password dev \
 	&& chown -R dev:dev /home/dev/ \
 	&& echo 'dev  ALL=(ALL) NOPASSWD:ALL' >>  /etc/sudoers
 
-# Change to non-root privilage.
+# Change to non-root privilage
 USER dev
 WORKDIR /home/dev
 
@@ -53,6 +57,9 @@ RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appi
 	&& rm nvim.appimage \
 	&& mv squashfs-root .nvim-squashfs-root \
 	&& sudo ln -s ~/.nvim-squashfs-root/AppRun /usr/bin/nvim
+
+# 
+WORKDIR /home/dev/workspace
 
 # Expose SSH port
 EXPOSE 22
