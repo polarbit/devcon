@@ -25,20 +25,28 @@ RUN apt -y update && apt -y upgrade && apt install -y \
 	less \
 	jq
 
+# Create workspace volume
+VOLUME /home/dev/workspace
+WORKDIR /home/dev
+
 # Install nvm & node.js
-ENV NVM_DIR /usr/local/.nvm
-ENV NODE_VERSION 16.7.0
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH      $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+ENV	NVM_DIR /usr/local/.nvm
+ENV 	NODE_VERSION 16.7.0
+ENV 	NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV 	PATH      $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 RUN	mkdir $NVM_DIR \
 	&& wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
 	&& . $NVM_DIR/nvm.sh \
 	&& nvm install $NODE_VERSION --latest-npm
 
+# Install Go-lang
+ENV 	PATH	/usr/local/go/bin:$PATH
+RUN	wget -q https://golang.org/dl/go1.17.linux-amd64.tar.gz \
+	&& rm -rf /usr/local/go \
+	&& tar -C /usr/local -xzf go1.17.linux-amd64.tar.gz \
+	&& rm go1.17.linux-amd64.tar.gz
 
-# Create workspace volume
-VOLUME /home/dev/workspace
 
 # Add user and ugroup 'dev' with id 1182
 RUN addgroup --gid 1182 dev \
@@ -48,7 +56,10 @@ RUN addgroup --gid 1182 dev \
 
 # Change to non-root privilage
 USER dev
-WORKDIR /home/dev
+
+# Install and configure bash-it
+RUN	git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it \
+	&& ~/.bash_it/install.sh --silent
 
 # Install and configure neovim + plugins
 RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage \

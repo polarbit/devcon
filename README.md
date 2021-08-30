@@ -1,17 +1,26 @@
 # devcon
 
-Build **devcon** container
-`docker build -t polarbit/devcon .`
+*Build dev container
+`./build-container`
 
-Start **devcon** container
+*Start dev container
 `./run-container.sh`
+Note: This script will remove existing container, even if it is running.
 
-Stop **devcon** container
+*Stop dev container
 `docker rm -f devcon`
 
-Connect to **devcon** container
+*Connect to dev container
 `docker exec -it devcon bash`
 
 * Container runs a ssh server. SSH key is retrieved from host file ~/.ssh/id*.pub
 * When doing ssh, the IP address of the container is host's IP address, and port 22.
+
+###Installed Components###
+- Go
+- Node.Js
+- NeoVim
+- bash-it
+- Other tools (tar, ssh, wget, git, net-tools)
+- Check Dockerfile to see all installed tools
 
