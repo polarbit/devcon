@@ -28,8 +28,12 @@ Note: This script will remove existing container, even if it is running.
 * When doing ssh, the IP address of the container is host's IP address, and port 22.
 
 ### To Do
+- Put script into a folder
 - Install & configure common neovim plugins
 - Install & configure Go neovim plugins
 - Install Rust sdk & tools
+- Try to support DIND, KIND, k3s/k0s
+- Add cloud cli's
 - Make username and container name parametric
 - Use make file
+- ...
