@@ -25,8 +25,8 @@ RUN apt -y update && apt -y upgrade && apt install -y \
 	less \
 	jq
 
-# Create workspace volume
-VOLUME /home/dev/workspace
+# Create  volume
+VOLUME /home/dev
 WORKDIR /home/dev
 
 # Install nvm & node.js
@@ -67,10 +67,8 @@ RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appi
 	&& ./nvim.appimage --appimage-extract \
 	&& rm nvim.appimage \
 	&& mv squashfs-root .nvim-squashfs-root \
-	&& sudo ln -s ~/.nvim-squashfs-root/AppRun /usr/bin/nvim
-
-# 
-WORKDIR /home/dev/workspace
+	&& sudo ln -s ~/.nvim-squashfs-root/AppRun /usr/bin/nvim \
+	&& mkdir -p /home/dev/.config/nvim 
 
 # Expose SSH port
 EXPOSE 22

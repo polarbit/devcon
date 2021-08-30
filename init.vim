@@ -1,3 +1,20 @@
+let data_dir = stdpath('data') . '/site'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync
+endif
+
+call plug#begin(stdpath('data') . '/plugged')
+
+    " Go
+    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+    " File Explorer
+    Plug 'scrooloose/NERDTree'
+    " Auto pairs for '(' '[' '{'
+    Plug 'jiangmiao/auto-pairs'
+
+call plug#end()
+
 set nocompatible            " disable compatibility to old-time vi
 set showmatch               " show matching brackets.
 set ignorecase              " case insensitive matching
